@@ -1,8 +1,9 @@
 import * as Redux from 'redux'
 
-type ReducerWithoutState<T> = T extends (state: infer S) => infer S ? () => S
-  : T extends (state: infer S, payload: infer P) => infer S ? (payload: P) => S
-  : never
+type ReducerWithoutState<T> =
+  T extends (state: infer S) => infer S ? () => S :
+  T extends (state: infer S, payload: infer P) => infer S ? (payload: P) => S :
+  never
 
 type TransformReducers<Reducers> = {
   [reducerKey in keyof Reducers]: ReducerWithoutState<Reducers[reducerKey]>
