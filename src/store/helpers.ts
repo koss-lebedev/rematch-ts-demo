@@ -2,22 +2,23 @@ import * as Redux from 'redux'
 
 /* reducers */
 
-type ReducerWithoutState<T> =
+type ExtractReducerPayload<T> =
   T extends (state: infer S) => infer S ? () => S :
   T extends (state: infer S, payload: infer P) => infer S ? (payload: P) => S :
   never
 
 type TransformReducers<Reducers> = {
-  [reducerKey in keyof Reducers]: ReducerWithoutState<Reducers[reducerKey]>
+  [reducerKey in keyof Reducers]: ExtractReducerPayload<Reducers[reducerKey]>
 }
 
 type ExtractReducers<M> = M extends { reducers: infer U } ? TransformReducers<U> : never
 
 /* effects */
 
-type ExtractEffectPayload<T> = T extends (payload: infer P, ...args: any[]) => infer R
-  ? (payload: P) => R
-  : never
+type ExtractEffectPayload<T> =
+  T extends () => infer R ? () => R :
+  T extends (payload: infer P, ...args: any[]) => infer R ? (payload: P) => R :
+  never
 
 type TransformEffects<Effects> = {
   [effectKey in keyof Effects]: ExtractEffectPayload<Effects[effectKey]>
