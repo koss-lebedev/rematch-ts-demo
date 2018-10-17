@@ -11,9 +11,11 @@ const user: IUserModel = {
     }
   },
   effects: dispatch => ({
-    async setNameAsync({ name }) {
-      dispatch.count.decrement()
-      dispatch.user.setName({ name })
+    async setNameAsync({ name }, rootState) {
+      if (rootState.user.age > 18) {
+        dispatch.count.decrement()
+        dispatch.user.setName({ name })
+      }
     }
   })
 }

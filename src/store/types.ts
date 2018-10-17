@@ -1,4 +1,4 @@
-import { ExtractRootDispatch } from './helpers'
+import { ExtractRootDispatch, ExtractRootState } from './helpers'
 
 export interface ICountModel<T = number> {
   state: T,
@@ -21,7 +21,7 @@ export interface IUserModel<T = { name: string, age: number }> {
     setName: (state: T, payload: IUserPayload) => T
   },
   effects: (dispatch: ExtractRootDispatch<AllModels>) => ({
-    setNameAsync: (payload: IUserPayload) => Promise<void>
+    setNameAsync: (payload: IUserPayload, rootState: ExtractRootState<AllModels>) => Promise<void>
   })
 }
 

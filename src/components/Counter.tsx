@@ -19,6 +19,7 @@ const mapProps = (state: RootState) => ({
 const mapDispatch = (dispatch: RootDispatch) => ({
   increment: dispatch.count.increment,
   decrement: dispatch.count.decrement,
+  setNameAsync: dispatch.user.setNameAsync({ name: 'test '}),
 })
 
 export default connect(mapProps, mapDispatch)(Counter)
